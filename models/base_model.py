@@ -15,13 +15,20 @@ Base model for the AriBnB clone
 class BaseModel:
     """create objects for the class"""
     today = datetime.now()
+    
 
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.created_at = self.today
         self.updated_at = self.today
         self.id = str(uuid4())
-        # self.__class__ = self.__class__.__name__
+        
+        if kwargs:
+            kwargs.pop('__class__', None)
+            for k, v in kwargs.items():
+                if k == "created_at" or k == "updated_at":
+                    v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
+                setattr(self, k, v)
     
     def save(self):
         """updates the public instance attribute updated_at with the current datetime"""
