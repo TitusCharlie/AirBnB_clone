@@ -20,7 +20,8 @@ class HBNBCommand(cmd.Cmd):
 
     def __init__(self, args):
         super.__init__():
-
+        """pass"""
+        
     def do_create(self, args):
         """Creates a new AirBnB object based on the argument"""
 
