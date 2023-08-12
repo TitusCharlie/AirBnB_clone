@@ -18,20 +18,20 @@ import sys
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
-    # def __init__(self, args):
-        # super.__init__():
+    def __init__(self, args):
+        super.__init__():
 
-    # def do_create(self, args):
-    #     """Creates a new AirBnB object based on the argument"""
+    def do_create(self, args):
+        """Creates a new AirBnB object based on the argument"""
 
-    # def do_update(self, args):
-    #     """Update an existing object"""
+    def do_update(self, args):
+        """Update an existing object"""
 
-    # def do_delete(self, args):
-    #     """delete an existing object"""
+    def do_delete(self, args):
+        """delete an existing object"""
 
-    # def do_show(self, args):
-    #     """show the details of an object"""
+    def do_show(self, args):
+        """show the details of an object"""
 
     def do_EOF(self, args):
         """End of files"""
