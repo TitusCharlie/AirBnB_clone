@@ -5,11 +5,14 @@
 
 from uuid import uuid4
 from datetime import datetime
+import models
 """
 ===============================
 Base model for the AriBnB clone
 ===============================
 """
+
+
 
 
 class BaseModel:
@@ -24,15 +27,18 @@ class BaseModel:
         self.id = str(uuid4())
         
         if kwargs:
-            kwargs.pop('__class__', None)
+            kwargs.pop("__class__", None)
             for k, v in kwargs.items():
                 if k == "created_at" or k == "updated_at":
                     v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
                 setattr(self, k, v)
+        else:
+            models.storage.new(self)
     
     def save(self):
         """updates the public instance attribute updated_at with the current datetime"""
         self.updated_at = self.today
+        models.storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__ of the instance"""
@@ -48,4 +54,3 @@ class BaseModel:
         """Return the str representation of the model"""
 
         return f"{(self.__class__.__name__)} {(self.id)} {self.__dict__}"
-    
