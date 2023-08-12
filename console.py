@@ -4,7 +4,7 @@
     Base module for AirBnB
 ==========================
 """
-from cmd import Cmd as command;
+import cmd
 import sys
 
 
@@ -15,7 +15,7 @@ import sys
 """
 
 
-class tlcAirbnb(command):
+class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     # def __init__(self, args):
@@ -40,18 +40,16 @@ class tlcAirbnb(command):
     def do_help(self, args):
         """Help documentation"""
         
-        command.do_help(self, args)
+        cmd.Cmd.do_help(self, args)
         
     def do_quit(self, args):
         """quit the interpreter"""
         return True
 
-    def emptyline(self) -> bool:
+    def emptyline(self):
         """returns the empty line"""
         # return super().emptyline()
         pass
 
-if __name__ == "__main__":
-
-    interpreter = tlcAirbnb()
-    interpreter.cmdloop()
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
