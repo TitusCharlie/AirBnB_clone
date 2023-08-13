@@ -6,6 +6,8 @@
 from uuid import uuid4
 from datetime import datetime
 import models
+
+
 """
 ===============================
 Base model for the AriBnB clone
@@ -13,14 +15,11 @@ Base model for the AriBnB clone
 """
 
 
-
-
 class BaseModel:
     """create objects for the class"""
+    
     today = datetime.now()
     
-
-
     def __init__(self, *args, **kwargs):
         self.created_at = self.today
         self.updated_at = self.today

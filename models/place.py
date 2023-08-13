@@ -24,6 +24,7 @@ Attributes:
 ===========================================================
 """
 
+
 class Place(BaseModel):
     
     city_id = ""            #string - empty string: it will be the City.id
