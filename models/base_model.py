@@ -17,14 +17,14 @@ Base model for the AriBnB clone
 
 class BaseModel:
     """create objects for the class"""
-    
+
     today = datetime.now()
-    
+
     def __init__(self, *args, **kwargs):
         self.created_at = self.today
         self.updated_at = self.today
         self.id = str(uuid4())
-        
+
         if kwargs:
             kwargs.pop("__class__", None)
             for k, v in kwargs.items():
@@ -33,14 +33,20 @@ class BaseModel:
                 setattr(self, k, v)
         else:
             models.storage.new(self)
-    
+
     def save(self):
-        """updates the public instance attribute updated_at with the current datetime"""
+        """
+            updates the public instance attribute
+            updated_at with the current datetime
+        """
         self.updated_at = self.today
         models.storage.save()
 
     def to_dict(self):
-        """returns a dictionary containing all keys/values of __dict__ of the instance"""
+        """
+            returns a dictionary containing all
+            keys/values of __dict__ of the instance
+        """
         dict_copy = self.__dict__.copy()
         dict_copy["__class__"] = self.__class__.__name__
         dict_copy["updated_at"] = self.updated_at.isoformat()
