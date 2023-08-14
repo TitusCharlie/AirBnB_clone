@@ -17,15 +17,6 @@ import sys
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
-    __classes = {
-        "BaseModel",
-        "User",
-        "State",
-        "City",
-        "Place",
-        "Amenity",
-        "Review"
-    }
 
     def __init__(self, args):
       #  super.__init__():
