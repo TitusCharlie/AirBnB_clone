@@ -5,8 +5,6 @@
 
 from uuid import uuid4
 from datetime import datetime
-import models
-
 
 """
 ===============================
@@ -32,15 +30,17 @@ class BaseModel:
                     v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
                 setattr(self, k, v)
         else:
-            models.storage.new(self)
+            from models import storage
+            storage.new(self)
 
     def save(self):
         """
             updates the public instance attribute
             updated_at with the current datetime
         """
+        from models import storage
         self.updated_at = self.today
-        models.storage.save()
+        storage.save()
 
     def to_dict(self):
         """

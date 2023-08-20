@@ -6,6 +6,7 @@ import modules
 """
 
 import json
+import os
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -30,20 +31,18 @@ class FileStorage:
 
     def all(self):
         """returns the dictionary __objects"""
-        return FileStorage.__objects
+        return self.__objects
     
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
         # FileStorage.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
-        key = f"{type(obj).__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj
+        key = obj.__class__.__name__ + '.' + obj.id
+        self.__objects[key] = obj
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        stored_objects = FileStorage.__objects
-        stored_objects_dictionary = {object: stored_objects.to_dict() for object in stored_objects.items()}
-        with open(FileStorage.__file_path, "w") as file:
-                json.dump(stored_objects_dictionary, file)
+        with open(self.__file_path, 'w') as f:
+            json.dump({k: v.to_dict() for k, v in self.__objects.items()}, f)
 
     def reload(self):
         """deserializes the JSON file to __objects 
@@ -51,8 +50,11 @@ class FileStorage:
            otherwise, do nothing. If the file doesn’t exist,
            no exception should be raised)"""
         try:
-             with open(FileStorage.__file_path) as file:
-                  json.load(file)
+            if os.path.exists(self.__file_path):
+                with open(self.__file_path, 'r') as f:
+                    self.__objects = json.load(f)
+                    for k, v in self.__objects.items():
+                        self.__objects[k] = BaseModel(**v)
 
         except:
              pass
