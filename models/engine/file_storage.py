@@ -24,7 +24,7 @@ and deserializes JSON file to instances
 """
 
 
-class FileStorage:
+class FileStorage():
     
     __file_path = "file.json"
     __objects = {}
@@ -57,5 +57,5 @@ class FileStorage:
                         self.__objects[k] = BaseModel(**v)
 
         except:
-             pass
+             return
         
