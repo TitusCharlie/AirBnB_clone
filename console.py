@@ -1,56 +1,131 @@
-#!/usr/bin/python3
-"""
-==========================
-    Base module for AirBnB
-==========================
-"""
 import cmd
-import sys
-
-
-"""
-=====================================
-    create a class command line input
-===================================== 
-"""
-
+import models
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
-    def __init__(self, args):
-      #  super.__init__():
-        """pass"""
-
-    def do_create(self, args):
-        """Creates a new AirBnB object based on the argument"""
-
-    def do_update(self, args):
-        """Update an existing object"""
-
-    def do_delete(self, args):
-        """delete an existing object"""
-
-    def do_show(self, args):
-        """show the details of an object"""
-
-    def do_EOF(self, args):
-        """End of files"""
+    def do_quit(self, arg):
+        """Exit the program"""
         return True
 
-    def do_help(self, args):
-        """Help documentation"""
-        
-        cmd.Cmd.do_help(self, args)
-        
-    def do_quit(self, args):
-        """quit the interpreter"""
+    def do_EOF(self, arg):
+        """Exit the program"""
         return True
 
     def emptyline(self):
-        """returns the empty line"""
-        # return super().emptyline()
+        """Do nothing on empty input"""
         pass
+
+    def do_create(self, arg):
+        """Create a new instance of a class"""
+        if not arg:
+            print("** class name missing **")
+            return
+        try:
+            new_instance = eval(arg)()
+            new_instance.save()
+            print(new_instance.id)
+        except NameError:
+            print("** class doesn't exist **")
+
+    def do_show(self, arg):
+        """Print the string representation of an instance"""
+        if not arg:
+            print("** class name missing **")
+            return
+        args = arg.split()
+        if len(args) < 2:
+            print("** instance id missing **")
+            return
+
+        try:
+            cls_name = args[0]
+            obj_id = args[1]
+            obj = models.storage.find(cls_name, obj_id)
+            if obj and cls_name == "User":
+                print(obj)
+            elif obj and cls_name != "User":
+                print("** class doesn't exist **")
+            else:
+                print("** no instance found **")
+        except IndexError:
+            if not args:
+                print("** class name missing **")
+            else:
+                print("** instance id missing **")
+        except NameError:
+            print("** class doesn't exist **")
+        def do_destroy(self, arg):
+            """Delete an instance based on the class name and id"""
+            args = arg.split()
+            if not args:
+                print("** class name missing **")
+                return
+            try:
+                cls_name = args[0]
+                obj_id = args[1]
+                obj = models.storage.find(cls_name, obj_id)
+                if obj:
+                    models.storage.delete(obj)
+                    models.storage.save()
+                else:
+                    print("** no instance found **")
+            except IndexError:
+                if not args:
+                    print("** class name missing **")
+                else:
+                    print("** instance id missing **")
+            except NameError:
+                print("** class doesn't exist **")
+
+    def do_all(self, arg):
+        """Print all string representations of all instances"""
+        args = arg.split()
+        objects = models.storage.all()
+        if not args:
+            print([str(obj) for obj in objects.values()])
+        else:
+            try:
+                cls_name = args[0]
+                if cls_name in models.classes:
+                    print([str(obj) for obj in objects.values() if type(obj).__name__ == cls_name])
+                else:
+                    print("** class doesn't exist **")
+            except NameError:
+                print("** class doesn't exist **")
+
+    def do_update(self, arg):
+        """Update an instance based on the class name and id"""
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+            return
+        try:
+            cls_name = args[0]
+            obj_id = args[1]
+            obj = models.storage.find(cls_name, obj_id)
+            if obj:
+                if len(args) > 2:
+                    attr_name = args[2].strip("\"")
+                    if len(args) > 3:
+                        attr_value = args[3].strip("\"")
+                        attr_type = type(getattr(obj, attr_name))
+                        setattr(obj, attr_name, attr_type(attr_value))
+                        obj.save()
+                else:
+                    print("** attribute name missing **")
+            else:
+                print("** no instance found **")
+        except IndexError:
+            if not args:
+                print("** class name missing **")
+            elif len(args) == 1:
+                print("** instance id missing **")
+            else:
+                print("** attribute value missing **")
+        except NameError:
+            print("** class doesn't exist **")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
