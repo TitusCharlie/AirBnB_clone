@@ -1,19 +1,12 @@
-body{
-        margin: 0;
-        padding: 0;
-	/*make the footer come down and center*/
-	min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-
-	font-color: #484848;
-	font-size: 14px;
-	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
-	align-items: center;
-	max-width: 100%;
+body {
+    margin: 0;
+    padding: 0;
+    color: #484848;
+    font-size: 14px;
+    font-family: Circular, "Helvetica Neue", Arial, sans-serif;
 }
-.container{
-	width: 100%;	
-	max-width: 1000px;
-	margin: 30px auto;
+div.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    /* text-align: center; */
 }
